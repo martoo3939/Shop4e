@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verification Email</title>
+  <style>
+    table, td, div, h1, p {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;word-spacing:normal;background-color: #008DDA;">
+<table role="presentation" style="width: 100%; border: none; border-spacing: 0;">
+  <tr>
+    <td align="center" style="padding: 20px 0;">
+      <table role="presentation"
+             style="width:94%;max-width:600px;border:none;border-spacing:0; border-radius: 6px; border-collapse: collapse; text-align:left;font-family:Arial,sans-serif;font-size:16px;line-height:22px;color:#363636;background-color: #FBF9F1">
+        <tr>
+          <td style="padding: 0 15px;">
+            <h1 style="color: #31363F; text-align: center">Welcome to
+              <b style="color: #008DDA; font-weight: normal;">Shop4e</b>!
+            </h1>
+            <p style="width: 100%; height: 2px; background-color: rgba(0, 141, 218, .15);"></p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 0 15px;">
+            <p>Hi, <span style="color: #008DDA;" th:text="${userFullname}"></span>!</p>
+            <p>Please verify your account by clicking the button below.</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 25px 15px; text-align: center;">
+            <a th:href="${verificationLink}"
+               style="display: inline-block; padding: 15px 35px; background-color: #008DDA; color: #fff; text-decoration: none; border-radius: 6px;">
+              Verify Account
+            </a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
