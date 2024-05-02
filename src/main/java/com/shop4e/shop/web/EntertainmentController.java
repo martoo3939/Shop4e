@@ -6,6 +6,7 @@ import com.shop4e.shop.util.validator.ValidatorUtil;
 import com.shop4e.shop.web.request.EntertainmentCreationRequest;
 import com.shop4e.shop.web.request.EntertainmentUpdateRequest;
 import com.shop4e.shop.web.response.EntertainmentResponse;
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class EntertainmentController {
   @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<?> createEntertainmentProduct(
       @RequestPart(value = "data") @Valid EntertainmentCreationRequest request,
-      @RequestPart(value = "images", required = false) Optional<MultipartFile[]> images,
+      @RequestPart(value = "images", required = false) Optional<List<MultipartFile>> images,
       Authentication principal,
       Errors errors
   ) {
@@ -65,7 +66,7 @@ public class EntertainmentController {
   public ResponseEntity<?> updateEntertainmentProduct(
       @PathVariable String id,
       @RequestPart(value = "data") @Valid EntertainmentUpdateRequest request,
-      @RequestPart(value = "images", required = false) Optional<MultipartFile[]> images,
+      @RequestPart(value = "images", required = false) Optional<List<MultipartFile>> images,
       Authentication principal,
       Errors errors
   ) {

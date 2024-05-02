@@ -49,7 +49,7 @@ public class EntertainmentServiceImpl implements EntertainmentService {
 
   @Override
   public EntertainmentResponse createEntertainment(EntertainmentCreationRequest request,
-      Optional<MultipartFile[]> images,
+      Optional<List<MultipartFile>> images,
       Authentication principal) {
     User seller = getUserFromPrincipal(principal);
 
@@ -94,7 +94,7 @@ public class EntertainmentServiceImpl implements EntertainmentService {
 
   @Override
   public EntertainmentResponse updateEntertainment(String id, EntertainmentUpdateRequest request,
-      Optional<MultipartFile[]> images,
+      Optional<List<MultipartFile>> images,
       Authentication principal) {
     User seller = getUserFromPrincipal(principal);
 
@@ -110,7 +110,7 @@ public class EntertainmentServiceImpl implements EntertainmentService {
             UUID.fromString(id), seller)
         .orElseThrow(() -> new CustomException("Product not found."));
     images.ifPresent(i -> {
-      if (i.length + product.getPhotos().size() > TOTAL_IMAGES) {
+      if (i.size() + product.getPhotos().size() > TOTAL_IMAGES) {
         throw new CustomException("Total count of images exceeded.");
       }
 

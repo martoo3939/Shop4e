@@ -72,7 +72,7 @@ public class ShopService {
     Product product = productRepository.findById(UUID.fromString(productId)).orElseThrow(
         () -> new CustomException(String.format("Product with id: %s does not exist", productId)));
 
-    return mapProductToResponse(product);
+    return productMapper.mapProductToResponse(product);
   }
 
   public ProductDetailsResponse updateProduct(String productId, ProductCreationRequest request,
@@ -97,7 +97,7 @@ public class ShopService {
 
     productRepository.saveAndFlush(product);
 
-    return mapProductToResponse(product);
+    return productMapper.mapProductToResponse(product);
   }
 
   public PagedResponse getProducts(int page, int size, String category) {
@@ -106,11 +106,11 @@ public class ShopService {
     Page<Product> all;
     if (category == null) {
       all = productRepository.findAllByDeletedAtIsNull(pageable);
-      products = all.get().map(this::mapProductToResponse)
+      products = all.get().map(productMapper::mapProductToResponse)
           .collect(Collectors.toList());
     } else {
       all = productRepository.findAllByCategory(category, pageable);
-      products = all.get().map(this::mapProductToResponse).collect(Collectors.toList());
+      products = all.get().map(productMapper::mapProductToResponse).collect(Collectors.toList());
     }
 
     return new PagedResponse(products, all.getTotalElements(), all.getTotalPages());
@@ -130,23 +130,6 @@ public class ShopService {
 
   private User getUserFromPrincipal(Authentication principal) {
     return userUtil.getUserFromPrincipal(principal);
-  }
-
-  private ProductDetailsResponse mapProductToResponse(Product product) {
-    ProductDetailsResponse response = new ProductDetailsResponse();
-    response.setSeller(product.getSeller().getEmail());
-    response.setId(product.getId().toString());
-    response.setTitle(product.getTitle());
-    response.setDescription(product.getDescription());
-    response.setPrice(product.getPrice());
-    response.setCurrency(product.getCurrency().name());
-    response.setCategory(product.getCategory().getName());
-    response.setCategoryId(product.getCategory().getId().toString());
-    response.setPublished(product.getCreated());
-    response.setEdited(product.getModified());
-    response.setProductType(product.getProductType());
-
-    return response;
   }
 
   private <T extends ProductCurrency> void checkCurrency(T request) {
@@ -229,20 +212,6 @@ public class ShopService {
 //    return mapBookToBookResponse(book);
 //  }
 
-  private BookResponse mapBookToBookResponse(Book book) {
-    ProductDetailsResponse generalDetails = mapProductToResponse(book);
-
-    BookResponse response = new BookResponse();
-    response.setDetails(generalDetails);
-    response.setAuthor(book.getAuthor());
-    response.setBookCategory(book.getBookCategory().getName());
-    response.setISBN(book.getISBN());
-    response.setPages(book.getPages());
-    response.setPublishedAt(book.getPublishedAt());
-
-    return response;
-  }
-
 //  public PagedResponse searchBooks(BookSearchRequest request, Pageable pageable,
 //      Authentication principal) {
 //    Page<Book> searchResult = bookRepository.searchBooks(request, pageable);
@@ -285,21 +254,6 @@ public class ShopService {
 //
 //    return response;
 //  }
-
-  private DeviceResponse mapDeviceToDeviceResponse(ElectronicDevice product) {
-    ProductDetailsResponse generalDetails = mapProductToResponse(product);
-
-    DeviceResponse response = new DeviceResponse();
-    response.setDetails(generalDetails);
-    response.setType(product.getType().getTypeName());
-    response.setBrand(product.getBrand());
-    response.setMemory(product.getMemory());
-    response.setProcessor(product.getProcessor());
-    response.setHardDrive(product.getHardDrive());
-    response.setVideoCard(product.getVideoCard());
-
-    return response;
-  }
 
   private <T extends com.shop4e.shop.web.request.DeviceType> void checkDeviceType(T request) {
     if (!DeviceType.supportDevice(request.getType())) {

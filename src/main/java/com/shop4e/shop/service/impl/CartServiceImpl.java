@@ -8,6 +8,7 @@ import com.shop4e.shop.repository.CartRepository;
 import com.shop4e.shop.repository.ProductRepository;
 import com.shop4e.shop.service.CartService;
 import com.shop4e.shop.util.UserUtil;
+import com.shop4e.shop.util.mapper.ProductMapper;
 import com.shop4e.shop.web.response.PagedResponse;
 import com.shop4e.shop.web.response.ProductDetailsResponse;
 import java.util.List;
@@ -24,12 +25,17 @@ public class CartServiceImpl implements CartService {
   private final CartRepository cartRepository;
   private final ProductRepository productRepository;
   private final UserUtil userUtil;
+  private final ProductMapper productMapper;
 
-  public CartServiceImpl(CartRepository cartRepository, ProductRepository productRepository,
-      UserUtil userUtil) {
+  public CartServiceImpl(
+      CartRepository cartRepository,
+      ProductRepository productRepository,
+      UserUtil userUtil,
+      ProductMapper productMapper) {
     this.cartRepository = cartRepository;
     this.productRepository = productRepository;
     this.userUtil = userUtil;
+    this.productMapper = productMapper;
   }
 
   @Override
@@ -99,7 +105,7 @@ public class CartServiceImpl implements CartService {
     Page<Product> products = cartRepository.findProductsByUserCart(user, pageable);
 
     List<ProductDetailsResponse> content = products.getContent().stream()
-        .map(this::mapProductToProductResponse)
+        .map(productMapper::mapProductToResponse)
         .collect(Collectors.toList());
 
     PagedResponse response = new PagedResponse();
@@ -108,18 +114,5 @@ public class CartServiceImpl implements CartService {
     response.setTotalPages(products.getTotalPages());
 
     return response;
-  }
-
-  private <T extends Product> ProductDetailsResponse mapProductToProductResponse(T product) {
-    ProductDetailsResponse mappedProduct = new ProductDetailsResponse();
-    mappedProduct.setId(product.getId().toString());
-    mappedProduct.setTitle(product.getTitle());
-    mappedProduct.setCategory(product.getCategory().getName());
-    mappedProduct.setCurrency(product.getCurrency().name());
-    mappedProduct.setDescription(product.getDescription());
-    mappedProduct.setPrice(product.getPrice());
-    mappedProduct.setSeller(product.getSeller().getUsername());
-
-    return mappedProduct;
   }
 }

@@ -30,7 +30,7 @@ public class User extends Audit {
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private Photo profilePicture;
   @Column(name = "is_verified")
-  private Boolean verified;
+  private Boolean verified = false;
 
   public User() {
   }

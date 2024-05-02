@@ -14,6 +14,7 @@ public class Address extends Audit {
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
+  private Boolean deleted = false;
 
   public Address() {
   }
@@ -69,6 +70,15 @@ public class Address extends Audit {
 
   public Address setUser(User user) {
     this.user = user;
+    return this;
+  }
+
+  public Boolean getDeleted() {
+    return deleted;
+  }
+
+  public Address setDeleted(Boolean deleted) {
+    this.deleted = deleted;
     return this;
   }
 }

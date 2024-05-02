@@ -10,4 +10,6 @@ public interface ViewHistoryService {
   ProductViewHistory saveProductView(String productId, User viewer);
 
   ProductViewHistory updateProductView(String productId, User viewer);
+
+  ProductViewHistory logProductView(String productId, User viewer);
 }

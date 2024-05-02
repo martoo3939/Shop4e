@@ -7,6 +7,8 @@ import com.shop4e.shop.exception.CustomException;
 import com.shop4e.shop.repository.ProductRepository;
 import com.shop4e.shop.repository.ProductViewHistoryRepository;
 import com.shop4e.shop.service.ViewHistoryService;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +26,8 @@ public class ViewHistoryServiceImpl implements ViewHistoryService {
 
   @Override
   public ProductViewHistory getProductView(String productId, User viewer) {
-    ProductViewHistory productView = historyRepository.findByProduct_IdAndViewer(
-        UUID.fromString(productId), viewer).orElse(null);
+    ProductViewHistory productView = historyRepository.findProductViewHistory(
+        UUID.fromString(productId), viewer.getId()).orElse(null);
 
     return productView;
   }
@@ -39,9 +41,7 @@ public class ViewHistoryServiceImpl implements ViewHistoryService {
     productView.setViewer(viewer);
     productView.setProduct(product);
 
-    historyRepository.saveAndFlush(productView);
-
-    return productView;
+    return historyRepository.save(productView);
   }
 
   @Override
@@ -49,9 +49,28 @@ public class ViewHistoryServiceImpl implements ViewHistoryService {
     ProductViewHistory productView = getProductView(productId, viewer);
 
     if (productView != null) {
-      historyRepository.saveAndFlush(productView);
+      productView = historyRepository.save(productView);
     }
 
     return productView;
+  }
+
+  @Override
+  public ProductViewHistory logProductView(String productId, User viewer) {
+    ProductViewHistory productView = getProductView(productId, viewer);
+
+    if(productView == null) {
+      Product product = productRepository.findById(UUID.fromString(productId))
+          .orElseThrow(() -> new CustomException("Product not found!"));
+
+      productView = new ProductViewHistory();
+      productView.setViewer(viewer);
+      productView.setProduct(product);
+      productView.setFirstVisit(LocalDateTime.now(ZoneOffset.UTC));
+    } else {
+      productView.setLastVisit(LocalDateTime.now(ZoneOffset.UTC));
+    }
+
+    return historyRepository.save(productView);
   }
 }

@@ -8,6 +8,7 @@ import com.shop4e.shop.web.request.BookSearchRequest;
 import com.shop4e.shop.web.request.BookUpdateRequest;
 import com.shop4e.shop.web.response.BookResponse;
 import com.shop4e.shop.web.response.PagedResponse;
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -71,8 +72,8 @@ public class BookController {
   @PreAuthorize("@userUtil.isUserVerified(authentication)")
   @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<?> createBook(
-      @RequestPart(value = "data") @Valid BookCreationRequest request,
-      @RequestPart(value = "images", required = false) Optional<MultipartFile[]> images,
+      @RequestPart(name = "data") @Valid BookCreationRequest request,
+      @RequestPart(name = "images[]", required = false) Optional<List<MultipartFile>> images,
       Authentication principal,
       Errors errors
   ) {
@@ -86,8 +87,8 @@ public class BookController {
   @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<?> updateBook(
       @PathVariable String id,
-      @RequestPart(value = "data") @Valid BookUpdateRequest request,
-      @RequestPart(value = "images", required = false) Optional<MultipartFile[]> images,
+      @RequestPart(name = "data") @Valid BookUpdateRequest request,
+      @RequestPart(name = "images[]", required = false) Optional<List<MultipartFile>> images,
       Authentication principal,
       Errors errors) {
     validator.checkForErrors(errors);

@@ -53,7 +53,7 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public BookResponse createBook(BookCreationRequest request, Optional<MultipartFile[]> images,
+  public BookResponse createBook(BookCreationRequest request, Optional<List<MultipartFile>> images,
       Authentication principal) {
     User seller = getUserFromPrincipal(principal);
 
@@ -91,7 +91,7 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public BookResponse updateBook(String bookId, BookUpdateRequest request,
-      Optional<MultipartFile[]> images,
+      Optional<List<MultipartFile>> images,
       Authentication principal) {
     User seller = getUserFromPrincipal(principal);
 
@@ -105,7 +105,7 @@ public class BookServiceImpl implements BookService {
         .orElseThrow(
             () -> new CustomException(String.format("Product with id: %s does not exist", bookId)));
     images.ifPresent(i -> {
-      if (i.length + product.getPhotos().size() > TOTAL_IMAGES) {
+      if (i.size() + product.getPhotos().size() > TOTAL_IMAGES) {
         throw new CustomException("Total count of images exceeded.");
       }
 

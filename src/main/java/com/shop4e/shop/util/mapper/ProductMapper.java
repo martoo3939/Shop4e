@@ -10,6 +10,8 @@ import com.shop4e.shop.web.response.BookResponse;
 import com.shop4e.shop.web.response.DeviceResponse;
 import com.shop4e.shop.web.response.EntertainmentResponse;
 import com.shop4e.shop.web.response.ProductDetailsResponse;
+import com.shop4e.shop.web.response.ProductDetailsResponse.Seller;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +27,8 @@ public class ProductMapper {
     response.setISBN(book.getISBN());
     response.setPages(book.getPages());
     response.setPublishedAt(book.getPublishedAt());
+    response.setBookCategoryId(book.getBookCategory().getId().toString());
+    response.setLanguage(book.getLanguage().getLanguage());
 
     return response;
   }
@@ -56,22 +60,36 @@ public class ProductMapper {
     return response;
   }
 
-  private <T extends Product> ProductDetailsResponse mapProductToResponse(T product) {
+  public <T extends Product> ProductDetailsResponse mapProductToResponse(T product) {
     ProductDetailsResponse response = new ProductDetailsResponse();
-    response.setSeller(product.getSeller().getEmail());
+    ProductDetailsResponse.Seller seller = new Seller();
+    seller.setId(product.getSeller().getId().toString());
+    seller.setEmail(product.getSeller().getEmail());
+    seller.setUsername(product.getSeller().getUsername());
+    seller.setFirstName(product.getSeller().getFirstName());
+    seller.setLastName(product.getSeller().getLastName());
+    Photo profilePicture = product.getSeller().getProfilePicture();
+    seller.setPicture(profilePicture != null ? profilePicture.getLocation() : null);
+    response.setSeller(seller);
     response.setId(product.getId().toString());
     response.setTitle(product.getTitle());
     response.setDescription(product.getDescription());
     response.setPrice(product.getPrice());
-    response.setCurrency(product.getCurrency().name());
+    response.setCurrency(product.getCurrency().getType());
     response.setCategory(product.getCategory().getName());
     response.setCategoryId(product.getCategory().getId().toString());
     response.setPublished(product.getCreated());
     response.setEdited(product.getModified());
     response.setProductType(product.getProductType());
-    response.setPhotos(product.getPhotos().stream()
-        .map(Photo::getLocation)
-        .collect(Collectors.toList()));
+    response.setPhotos(product.getPhotos() != null ? product.getPhotos().stream()
+        .map(photo -> {
+          ProductDetailsResponse.Photo mappedPhoto = new ProductDetailsResponse.Photo();
+          mappedPhoto.setLocation(photo.getLocation());
+          mappedPhoto.setIdentifier(photo.getIdentifier());
+
+          return mappedPhoto;
+        })
+        .collect(Collectors.toList()) : null);
 
     return response;
   }

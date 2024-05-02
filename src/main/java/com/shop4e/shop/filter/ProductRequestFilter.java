@@ -12,7 +12,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -40,6 +39,7 @@ public class ProductRequestFilter implements Filter {
     final String requestMethod = req.getMethod();
     final String requestURI = req.getRequestURI();
     final String pattern = "/api/v1/product/{id}";
+    final String uuidPattern = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
 
     final String userEmail = getUserEmail();
     final User user = userService.getUserByEmail(userEmail);
@@ -52,12 +52,12 @@ public class ProductRequestFilter implements Filter {
     if (pathMatcher.match(pattern, requestURI) && requestMethod.equals("GET")) {
       String productId = pathMatcher.extractUriTemplateVariables(pattern, requestURI).get("id");
 
-      ProductViewHistory productView = viewHistoryService.getProductView(productId, user);
-      if (productView != null) {
-        viewHistoryService.updateProductView(productId, user);
-      } else {
-        viewHistoryService.saveProductView(productId, user);
+      if (!productId.matches(uuidPattern)) {
+        filterChain.doFilter(request, response);
+        return;
       }
+
+      viewHistoryService.logProductView(productId, user);
     }
 
     filterChain.doFilter(request, response);

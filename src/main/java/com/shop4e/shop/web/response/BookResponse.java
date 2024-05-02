@@ -14,6 +14,8 @@ public class BookResponse implements ProductResponse {
   private LocalDate publishedAt;
   private String pages;
   private String bookCategory;
+  private String bookCategoryId;
+  private String language;
 
   public BookResponse() {
   }
@@ -71,6 +73,24 @@ public class BookResponse implements ProductResponse {
 
   public BookResponse setBookCategory(String bookCategory) {
     this.bookCategory = bookCategory;
+    return this;
+  }
+
+  public String getLanguage() {
+    return language;
+  }
+
+  public BookResponse setLanguage(String language) {
+    this.language = language;
+    return this;
+  }
+
+  public String getBookCategoryId() {
+    return bookCategoryId;
+  }
+
+  public BookResponse setBookCategoryId(String bookCategoryId) {
+    this.bookCategoryId = bookCategoryId;
     return this;
   }
 }

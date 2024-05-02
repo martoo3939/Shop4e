@@ -17,6 +17,7 @@ import com.shop4e.shop.util.service.ProductUtil;
 import com.shop4e.shop.web.request.DeviceCreationRequest;
 import com.shop4e.shop.web.request.DeviceUpdateRequest;
 import com.shop4e.shop.web.response.DeviceResponse;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.security.core.Authentication;
@@ -48,7 +49,7 @@ public class ElectronicDeviceServiceImpl implements ElectronicDeviceService {
   @Override
   public DeviceResponse createElectronicDevice(
       DeviceCreationRequest request,
-      Optional<MultipartFile[]> images,
+      Optional<List<MultipartFile>> images,
       Authentication principal) {
     User seller = getUserFromPrincipal(principal);
 
@@ -96,7 +97,7 @@ public class ElectronicDeviceServiceImpl implements ElectronicDeviceService {
   public DeviceResponse updateDevice(
       String deviceId,
       DeviceUpdateRequest request,
-      Optional<MultipartFile[]> images,
+      Optional<List<MultipartFile>> images,
       Authentication principal) {
     User seller = getUserFromPrincipal(principal);
 
@@ -111,7 +112,7 @@ public class ElectronicDeviceServiceImpl implements ElectronicDeviceService {
             UUID.fromString(deviceId), seller)
         .orElseThrow(() -> new CustomException("Device not found."));
     images.ifPresent(i -> {
-      if (i.length + product.getPhotos().size() > TOTAL_IMAGES) {
+      if (i.size() + product.getPhotos().size() > TOTAL_IMAGES) {
         throw new CustomException("Total count of images exceeded.");
       }
 

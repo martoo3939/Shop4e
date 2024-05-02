@@ -38,8 +38,8 @@ public class ProductUtil {
     }
   }
 
-  public void checkImages(MultipartFile[] images) {
-    if(images.length > TOTAL_IMAGES) {
+  public void checkImages(List<MultipartFile> images) {
+    if(images.size() > TOTAL_IMAGES) {
       throw new CustomException("Total count of images exceeded.");
     }
 
@@ -59,7 +59,7 @@ public class ProductUtil {
     }
   }
 
-  public List<Map<String, String>> handleImages(Optional<MultipartFile[]> images) {
+  public List<Map<String, String>> handleImages(Optional<List<MultipartFile>> images) {
     ArrayList<Map<String, String>> imageUrls = new ArrayList<>();
     images.ifPresent(result -> {
       for (MultipartFile image : result) {
@@ -71,7 +71,7 @@ public class ProductUtil {
     return imageUrls;
   }
 
-  public <T extends Product> void attachImages(T product, Optional<MultipartFile[]> images) {
+  public <T extends Product> void attachImages(T product, Optional<List<MultipartFile>> images) {
     List<Map<String, String>> imageProperties = handleImages(images);
 
     if (!imageProperties.isEmpty()) {
@@ -83,9 +83,9 @@ public class ProductUtil {
         photo.setProduct(product);
 
         return photo;
-      }).collect(Collectors.toList());
+      }).toList();
 
-      product.setPhotos(productPhotos);
+      productPhotos.forEach(product::addPhoto);
     }
   }
 }

@@ -125,4 +125,8 @@ public abstract class Product extends Audit {
   public String getProductType() {
     return productType;
   }
+
+  public void addPhoto(Photo photo) {
+    this.photos.add(photo);
+  }
 }
