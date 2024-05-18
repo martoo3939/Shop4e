@@ -6,6 +6,7 @@ import com.shop4e.shop.util.ResponseBuilder;
 import com.shop4e.shop.web.request.AddressRequest;
 import com.shop4e.shop.web.response.AddressResponse;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -49,14 +50,14 @@ public class AddressController {
   }
 
   @PostMapping("/create")
-  public GenericResponse<AddressResponse> createAddress(@RequestBody AddressRequest addressRequest, Authentication principal) {
+  public GenericResponse<AddressResponse> createAddress(@RequestBody @Valid AddressRequest addressRequest, Authentication principal) {
     AddressResponse address = addressService.createAddress(addressRequest, principal);
 
     return ResponseBuilder.buildTypedResponse(HttpStatus.OK, address);
   }
 
   @PutMapping("/{id}")
-  public GenericResponse<AddressResponse> updateAddress(@PathVariable("id") String addressId, @RequestBody AddressRequest addressRequest, Authentication principal) {
+  public GenericResponse<AddressResponse> updateAddress(@PathVariable("id") String addressId, @RequestBody @Valid AddressRequest addressRequest, Authentication principal) {
     AddressResponse address = addressService.updateAddress(addressRequest, addressId,
         principal);
 
