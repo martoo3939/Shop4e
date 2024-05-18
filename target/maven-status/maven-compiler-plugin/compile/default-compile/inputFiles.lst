@@ -1,5 +1,6 @@
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\domain\Role.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\repository\UserVerificationRepository.java
+D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\request\AddressRequest.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\util\jwt\JwtUtil.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\util\validator\OptionalParamValidator.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\util\validator\SecurePasswordValidator.java
@@ -8,12 +9,15 @@ D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\response\BookResponse.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\domain\BookCategory.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\repository\CustomProductRepository.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\domain\CurrencyRate.java
+D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\response\AddressResponse.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\util\validator\SecurePassword.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\repository\impl\CustomBookRepositoryImpl.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\request\DeviceCreationRequest.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\FileService.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\impl\CartServiceImpl.java
+D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\impl\AddressServiceImpl.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\ProfileService.java
+D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\response\ProductOwnerResponse.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\VerificationController.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\domain\Cart.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\response\ProductDetailsResponse.java
@@ -22,7 +26,6 @@ D:\Shop4e\shop\src\main\java\com\shop4e\shop\repository\UserRepository.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\CategoryService.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\util\validator\PasswordMatches.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\response\PagedResponse.java
-D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\HomeController.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\UserVerificationService.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\repository\CurrencyRateRepository.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\response\ProductFilterResponse.java
@@ -38,6 +41,7 @@ D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\response\FavouriteProductRespon
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\domain\enumeration\PhotoType.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\repository\ProductViewHistoryRepository.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\PhotoController.java
+D:\Shop4e\shop\src\main\java\com\shop4e\shop\repository\AddressRepository.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\util\ResponseBuilder.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\request\BookUpdateRequest.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\impl\UserVerificationServiceImpl.java
@@ -62,6 +66,7 @@ D:\Shop4e\shop\src\main\java\com\shop4e\shop\domain\enumeration\OrderStatus.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\request\Genre.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\impl\ProductSearchServiceImpl.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\domain\Product.java
+D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\OrderController.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\domain\enumeration\UserRole.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\repository\CartRepository.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\domain\Photo.java
@@ -100,15 +105,18 @@ D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\impl\FileServiceImpl.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\marker\ProductResponse.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\response\ErrorResponse.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\configuration\CloudinaryConfiguration.java
+D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\AddressController.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\repository\CustomBookRepository.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\ProfileController.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\response\CategoryResponse.java
+D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\AddressService.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\repository\EntertainmentRepository.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\OrderService.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\CartService.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\request\BookProductCategory.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\request\ProductFilter.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\request\BookSearchRequest.java
+D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\request\OrderRequest.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\BookService.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\impl\OrderServiceImpl.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\impl\PhotoServiceImpl.java
@@ -149,6 +157,7 @@ D:\Shop4e\shop\src\main\java\com\shop4e\shop\domain\ProductProjection.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\FavouriteController.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\repository\BookCategoryRepository.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\request\RegistrationRequest.java
+D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\response\OrderResponse.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\domain\ElectronicDevice.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\service\PhotoService.java
 D:\Shop4e\shop\src\main\java\com\shop4e\shop\web\request\ProductUpdateRequest.java

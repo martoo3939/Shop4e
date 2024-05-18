@@ -17,4 +17,6 @@ public interface AddressService {
   List<AddressResponse> getAddresses(Authentication principal);
 
   AddressResponse getAddress(String addressId, Authentication principal);
+
+  AddressResponse getAddressForDelivery(String addressId);
 }

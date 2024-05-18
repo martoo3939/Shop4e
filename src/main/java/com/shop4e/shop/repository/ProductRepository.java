@@ -31,4 +31,6 @@ public interface ProductRepository extends JpaRepository<Product, UUID>, CustomP
   Page<Product> findProductsByTitleContainingAndCategory_Id(String title, UUID categoryId, Pageable pageable);
 
   Optional<Product> findProductByIdAndDeletedAtIsNull(UUID id);
+
+  List<Product> findProductsByIdInAndDeletedAtIsNullOrderByCreated(List<UUID> productIds);
 }

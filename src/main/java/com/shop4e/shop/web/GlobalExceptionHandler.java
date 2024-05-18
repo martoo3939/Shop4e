@@ -44,6 +44,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   @Override
   protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
       HttpHeaders headers, HttpStatus status, WebRequest request) {
+    logger.error("Error during request", ex);
     Map<String, Object> response = new HashMap<>();
     response.put("message", "Required request body is missing");
 

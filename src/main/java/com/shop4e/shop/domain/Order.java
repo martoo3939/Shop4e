@@ -2,6 +2,7 @@ package com.shop4e.shop.domain;
 
 import com.shop4e.shop.domain.enumeration.CurrencyType;
 import com.shop4e.shop.domain.enumeration.OrderStatus;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,7 +18,7 @@ public class Order extends Audit {
   @ManyToOne
   @JoinColumn(name = "product_id")
   private Product product;
-  private BigInteger price;
+  private BigDecimal price;
   @Enumerated(EnumType.ORDINAL)
   private CurrencyType currency;
   private Integer quantity;
@@ -27,6 +28,8 @@ public class Order extends Audit {
   private User orderer;
   @Enumerated(EnumType.ORDINAL)
   private OrderStatus status;
+  @ManyToOne
+  private User seller;
 
   public Order() {
   }
@@ -40,11 +43,11 @@ public class Order extends Audit {
     return this;
   }
 
-  public BigInteger getPrice() {
+  public BigDecimal getPrice() {
     return price;
   }
 
-  public Order setPrice(BigInteger price) {
+  public Order setPrice(BigDecimal price) {
     this.price = price;
     return this;
   }
@@ -91,6 +94,15 @@ public class Order extends Audit {
 
   public Order setStatus(OrderStatus status) {
     this.status = status;
+    return this;
+  }
+
+  public User getSeller() {
+    return seller;
+  }
+
+  public Order setSeller(User seller) {
+    this.seller = seller;
     return this;
   }
 }

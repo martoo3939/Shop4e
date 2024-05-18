@@ -3,6 +3,7 @@ package com.shop4e.shop.domain;
 import com.shop4e.shop.domain.enumeration.CurrencyType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,20 +22,22 @@ import javax.persistence.OneToMany;
 @DiscriminatorColumn(name = "product_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Product extends Audit {
 
+  @Column(columnDefinition = "VARCHAR(255)")
   private String title;
+  @Column(columnDefinition = "LONGTEXT")
   private String description;
   private BigDecimal price;
   @Enumerated(EnumType.ORDINAL)
   private CurrencyType currency;
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Photo> photos;
+  private List<Photo> photos = new ArrayList<>();
   @ManyToOne
   private Category category;
   @ManyToOne
   private User seller;
   private LocalDateTime deletedAt;
   @OneToMany
-  private List<ProductRating> ratings;
+  private List<ProductRating> ratings = new ArrayList<>();
   @Column(name = "product_type", insertable = false, updatable = false)
   private String productType;
 

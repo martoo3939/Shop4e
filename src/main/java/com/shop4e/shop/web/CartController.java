@@ -3,6 +3,8 @@ package com.shop4e.shop.web;
 import com.shop4e.shop.service.CartService;
 import com.shop4e.shop.util.ResponseBuilder;
 import com.shop4e.shop.web.response.PagedResponse;
+import java.util.HashMap;
+import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -37,6 +39,16 @@ public class CartController {
       Authentication principal
   ) {
     PagedResponse response = cartService.getCartProducts(page, size, principal);
+
+    return ResponseBuilder.buildResponse(HttpStatus.OK, response);
+  }
+
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<?> isProductAdded(@PathVariable String id, Authentication principal) {
+    boolean isProductInside = cartService.checkProduct(id, principal);
+
+    Map<String, Object> response = new HashMap<>();
+    response.put("inside", isProductInside);
 
     return ResponseBuilder.buildResponse(HttpStatus.OK, response);
   }

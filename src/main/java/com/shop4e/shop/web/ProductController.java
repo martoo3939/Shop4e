@@ -12,6 +12,7 @@ import com.shop4e.shop.web.request.ProductSortRequest;
 import com.shop4e.shop.web.request.SortDirection;
 import com.shop4e.shop.web.response.PagedResponse;
 import com.shop4e.shop.web.response.ProductDetailsResponse;
+import com.shop4e.shop.web.response.ProductOwnerResponse;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -167,6 +167,13 @@ public class ProductController {
     shopService.deleteProductImage(imageId, principal);
 
     return ResponseBuilder.buildResponse(HttpStatus.NO_CONTENT);
+  }
+
+  @GetMapping("/owner/{id}")
+  public GenericResponse<ProductOwnerResponse> checkProductOwner(@PathVariable String id, Authentication principal) {
+    ProductOwnerResponse response = shopService.getProductOwner(id, principal);
+
+    return ResponseBuilder.buildTypedResponse(HttpStatus.OK, response);
   }
 
   private List<ProductSortRequest> extractSortParams(Optional<String[]> sortParams) {

@@ -8,9 +8,11 @@ import com.shop4e.shop.repository.FavouriteRepository;
 import com.shop4e.shop.repository.ProductRepository;
 import com.shop4e.shop.service.WishlistService;
 import com.shop4e.shop.util.UserUtil;
+import com.shop4e.shop.util.mapper.ProductMapper;
 import com.shop4e.shop.web.request.FavouriteProductRequest;
 import com.shop4e.shop.web.response.FavouriteProductResponse;
 import com.shop4e.shop.web.response.PagedResponse;
+import com.shop4e.shop.web.response.ProductDetailsResponse;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,13 +28,17 @@ public class WishlistServiceImpl implements WishlistService {
 
   private final FavouriteRepository favouriteRepository;
   private final ProductRepository productRepository;
+  private final ProductMapper productMapper;
   private final UserUtil userUtil;
 
-  public WishlistServiceImpl(FavouriteRepository favouriteRepository,
+  public WishlistServiceImpl(
+      FavouriteRepository favouriteRepository,
       ProductRepository productRepository,
+      ProductMapper productMapper,
       UserUtil userUtil) {
     this.favouriteRepository = favouriteRepository;
     this.productRepository = productRepository;
+    this.productMapper = productMapper;
     this.userUtil = userUtil;
   }
 
@@ -68,14 +74,18 @@ public class WishlistServiceImpl implements WishlistService {
     Page<Favourite> favouriteProducts = favouriteRepository.getFavouritesByUserAndFavouriteIs(
         user, favourite, pageable);
 
-    List<FavouriteProductResponse> favouriteMappedProducts = favouriteProducts.stream()
-        .map(favouriteProduct -> new FavouriteProductResponse(
-            favouriteProduct.getProduct().getId().toString(),
-            favouriteProduct.isFavourite()))
+    List<UUID> favouriteProductIds = favouriteProducts.stream()
+        .map(favouriteProduct -> favouriteProduct.getProduct().getId())
         .collect(Collectors.toList());
 
+    List<ProductDetailsResponse> products = productRepository.findProductsByIdInAndDeletedAtIsNullOrderByCreated(
+            favouriteProductIds)
+        .stream()
+        .map(productMapper::mapProductToResponse)
+        .toList();
+
     PagedResponse response = new PagedResponse();
-    response.setContent(favouriteMappedProducts);
+    response.setContent(products);
     response.setTotalElements(favouriteProducts.getTotalElements());
     response.setTotalPages(favouriteProducts.getTotalPages());
 

@@ -51,7 +51,7 @@ public class CartServiceImpl implements CartService {
       return;
     }
 
-    cart.getProducts().add(product);
+    cart.addProduct(product);
 
     cartRepository.saveAndFlush(cart);
   }
@@ -80,7 +80,7 @@ public class CartServiceImpl implements CartService {
       return;
     }
 
-    cart.getProducts().remove(product);
+    cart.removeProduct(product);
 
     cartRepository.saveAndFlush(cart);
   }
@@ -114,5 +114,17 @@ public class CartServiceImpl implements CartService {
     response.setTotalPages(products.getTotalPages());
 
     return response;
+  }
+
+  @Override
+  public boolean checkProduct(String productId, Authentication principal) {
+    User user = userUtil.getUserFromPrincipal(principal);
+
+    Product product = productRepository.findById(UUID.fromString(productId))
+        .orElseThrow(() -> new CustomException("Product not found."));
+
+    Cart cart = cartRepository.findCartByUser(user).orElse(createCart(user));
+
+    return checkProductInsideCart(cart, product);
   }
 }

@@ -21,7 +21,7 @@ public class SecurityConfiguration {
   private final AuthenticationProvider authenticationProvider;
   private final AuthEntryPoint exceptionHandler;
 
-  private static final String[] guestEndpoints = {"/**/auth/**", "/**/guest/**", "/api/v1/verify/user/**"};
+  private static final String[] guestEndpoints = {"/**", "/**/auth/**", "/**/guest/**", "/api/v1/verify/user/**"};
 
   public SecurityConfiguration(
       JwtAuthFilter jwtAuthFilter,

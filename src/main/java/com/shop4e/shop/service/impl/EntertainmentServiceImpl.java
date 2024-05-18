@@ -73,7 +73,9 @@ public class EntertainmentServiceImpl implements EntertainmentService {
     //Entertainment specific
     product.setType(entertainmentType);
     product.setGenre(genres);
-    product.setDetails(request.getDetails());
+    product.setFormat(request.getFormat());
+    product.setDuration(request.getDuration());
+    product.setReleaseDate(request.getReleaseDate());
 
     productUtil.attachImages(product, images);
 
@@ -123,7 +125,9 @@ public class EntertainmentServiceImpl implements EntertainmentService {
     //Entertainment specific
     product.setType(entertainmentType);
     product.setGenre(genres);
-    product.setDetails(request.getDetails());
+    product.setFormat(request.getFormat());
+    product.setDuration(request.getDuration());
+    product.setReleaseDate(request.getReleaseDate());
 
     entertainmentRepository.saveAndFlush(product);
 

@@ -51,7 +51,7 @@ public class EntertainmentController {
   @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<?> createEntertainmentProduct(
       @RequestPart(value = "data") @Valid EntertainmentCreationRequest request,
-      @RequestPart(value = "images", required = false) Optional<List<MultipartFile>> images,
+      @RequestPart(value = "images[]", required = false) Optional<List<MultipartFile>> images,
       Authentication principal,
       Errors errors
   ) {
@@ -66,7 +66,7 @@ public class EntertainmentController {
   public ResponseEntity<?> updateEntertainmentProduct(
       @PathVariable String id,
       @RequestPart(value = "data") @Valid EntertainmentUpdateRequest request,
-      @RequestPart(value = "images", required = false) Optional<List<MultipartFile>> images,
+      @RequestPart(value = "images[]", required = false) Optional<List<MultipartFile>> images,
       Authentication principal,
       Errors errors
   ) {

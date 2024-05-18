@@ -13,6 +13,7 @@ public class DeviceResponse implements ProductResponse {
   private String videoCard;
   private String memory;
   private String hardDrive;
+  private String deviceType;
 
   public DeviceResponse() {
   }
@@ -77,6 +78,15 @@ public class DeviceResponse implements ProductResponse {
 
   public DeviceResponse setHardDrive(String hardDrive) {
     this.hardDrive = hardDrive;
+    return this;
+  }
+
+  public String getDeviceType() {
+    return deviceType;
+  }
+
+  public DeviceResponse setDeviceType(String deviceType) {
+    this.deviceType = deviceType;
     return this;
   }
 }

@@ -68,7 +68,7 @@ public class ProductFilterResponse {
     this.modified = modified;
     if (currency != null) {
       CurrencyType[] currencyTypes = CurrencyType.values();
-      this.currency = currencyTypes[currency].name();
+      this.currency = currencyTypes[currency].getType();
     }
     this.description = description;
     this.price = price;

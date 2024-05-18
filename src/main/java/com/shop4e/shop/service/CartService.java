@@ -12,4 +12,6 @@ public interface CartService {
   void clearProducts(Authentication principal);
 
   PagedResponse getCartProducts(int page, int size, Authentication principal);
+
+  boolean checkProduct(String id, Authentication principal);
 }

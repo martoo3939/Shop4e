@@ -30,6 +30,7 @@ import com.shop4e.shop.web.response.PagedResponse;
 import com.shop4e.shop.web.response.ProductCombinedResponse;
 import com.shop4e.shop.web.response.ProductFilterResponse;
 import com.shop4e.shop.web.response.ProductDetailsResponse;
+import com.shop4e.shop.web.response.ProductOwnerResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -502,5 +503,17 @@ public class ShopService {
     }
 
     return (P) response;
+  }
+
+  public ProductOwnerResponse getProductOwner(String id, Authentication principal) {
+    User user = userUtil.getUserFromPrincipal(principal);
+    Product product = productRepository.findById(UUID.fromString(id))
+        .orElseThrow(() -> new CustomException("Product not found."));
+
+    ProductOwnerResponse response = new ProductOwnerResponse();
+    response.setProductId(product.getId().toString());
+    response.setProductOwner(product.getSeller().getEmail().equals(user.getEmail()));
+
+    return response;
   }
 }

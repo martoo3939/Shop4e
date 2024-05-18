@@ -44,7 +44,7 @@ public class ProductCombinedResponse {
     this.modified = projection.getModified();
     if (projection.getCurrency() != null) {
       CurrencyType[] currencyTypes = CurrencyType.values();
-      this.currency = currencyTypes[projection.getCurrency()].name();
+      this.currency = currencyTypes[projection.getCurrency()].getType();
     }
     this.description = projection.getDescription();
     this.price = projection.getPrice();

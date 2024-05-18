@@ -34,6 +34,13 @@ public class AddressController {
     return ResponseBuilder.buildTypedResponse(HttpStatus.OK, address);
   }
 
+  @GetMapping("/delivery/{id}")
+  public GenericResponse<AddressResponse> getAddress(@PathVariable("id") String addressId) {
+    AddressResponse address = addressService.getAddressForDelivery(addressId);
+
+    return ResponseBuilder.buildTypedResponse(HttpStatus.OK, address);
+  }
+
   @GetMapping("/all")
   public GenericResponse<List<AddressResponse>> getAddresses(Authentication principal) {
     List<AddressResponse> addresses = addressService.getAddresses(principal);

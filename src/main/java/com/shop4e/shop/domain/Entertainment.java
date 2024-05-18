@@ -1,6 +1,7 @@
 package com.shop4e.shop.domain;
 
 import com.shop4e.shop.domain.enumeration.EntertainmentType;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.CollectionTable;
@@ -20,13 +21,9 @@ public class Entertainment extends Product {
 
   @ManyToMany
   private List<Genre> genre;
-  @ElementCollection
-  @CollectionTable(name = "entertainment_details",
-      joinColumns = {
-          @JoinColumn(columnDefinition = "detail_id", referencedColumnName = "id", table = "product")})
-  @MapKeyColumn(name = "detail_name")
-  @Column(name = "detail_value")
-  private Map<String, String> details;
+  private String duration;
+  private Date releaseDate;
+  private String format;
   @Enumerated(EnumType.ORDINAL)
   private EntertainmentType type;
 
@@ -42,12 +39,30 @@ public class Entertainment extends Product {
     return this;
   }
 
-  public Map<String, String> getDetails() {
-    return details;
+  public String getDuration() {
+    return duration;
   }
 
-  public Entertainment setDetails(Map<String, String> details) {
-    this.details = details;
+  public Entertainment setDuration(String duration) {
+    this.duration = duration;
+    return this;
+  }
+
+  public Date getReleaseDate() {
+    return releaseDate;
+  }
+
+  public Entertainment setReleaseDate(Date releaseDate) {
+    this.releaseDate = releaseDate;
+    return this;
+  }
+
+  public String getFormat() {
+    return format;
+  }
+
+  public Entertainment setFormat(String format) {
+    this.format = format;
     return this;
   }
 

@@ -17,6 +17,6 @@ public interface CartRepository extends JpaRepository<Cart, UUID> {
 
   Optional<Cart> findCartByUser(User user);
 
-  @Query("SELECT p FROM Cart c JOIN c.products p WHERE c.user = :user")
+  @Query("SELECT p FROM Cart c JOIN c.products p WHERE c.user = :user AND p.deletedAt IS NULL")
   Page<Product> findProductsByUserCart(@Param("user") User user, Pageable pageable);
 }

@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
 public interface AddressRepository extends JpaRepository<Address, UUID> {
   Optional<Address> findByIdAndUser(UUID id, User user);
 
-  List<Address> findAddressesByUser(User user);
+  List<Address> findAddressesByUserAndDeletedIsFalse(User user);
 }

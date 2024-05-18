@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 
 public class ProductSearchRequest {
   @NotBlank
-  @Size(min = 3)
+  @Size(min = 2)
   private String search;
   private String categoryId;
   @Min(0)

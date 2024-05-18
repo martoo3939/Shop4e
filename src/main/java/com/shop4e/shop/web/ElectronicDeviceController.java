@@ -51,7 +51,7 @@ public class ElectronicDeviceController {
   @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<?> createDevice(
       @RequestPart(value = "data") @Valid DeviceCreationRequest request,
-      @RequestPart(value = "images", required = false) Optional<List<MultipartFile>> images,
+      @RequestPart(value = "images[]", required = false) Optional<List<MultipartFile>> images,
       Authentication principal,
       Errors errors
   ) {
@@ -66,7 +66,7 @@ public class ElectronicDeviceController {
   public ResponseEntity<?> updateDevice(
       @PathVariable String id,
       @RequestPart(value = "data") @Valid DeviceUpdateRequest request,
-      @RequestPart(value = "images", required = false) Optional<List<MultipartFile>> images,
+      @RequestPart(value = "images[]", required = false) Optional<List<MultipartFile>> images,
       Authentication principal,
       Errors errors
   ) {

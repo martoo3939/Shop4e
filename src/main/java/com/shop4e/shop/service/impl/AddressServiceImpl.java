@@ -6,6 +6,7 @@ import com.shop4e.shop.exception.CustomException;
 import com.shop4e.shop.repository.AddressRepository;
 import com.shop4e.shop.service.AddressService;
 import com.shop4e.shop.util.UserUtil;
+import com.shop4e.shop.util.mapper.ProductMapper;
 import com.shop4e.shop.web.request.AddressRequest;
 import com.shop4e.shop.web.response.AddressResponse;
 import java.util.List;
@@ -19,22 +20,29 @@ public class AddressServiceImpl implements AddressService {
 
   private final AddressRepository addressRepository;
   private final UserUtil userUtil;
+  private final ProductMapper productMapper;
 
-  public AddressServiceImpl(AddressRepository addressRepository, UserUtil userUtil) {
+  public AddressServiceImpl(
+      AddressRepository addressRepository,
+      UserUtil userUtil,
+      ProductMapper productMapper) {
     this.addressRepository = addressRepository;
     this.userUtil = userUtil;
+    this.productMapper = productMapper;
   }
 
   @Override
   public AddressResponse createAddress(AddressRequest addressRequest, Authentication principal) {
+    User user = userUtil.getUserFromPrincipal(principal);
     Address address = new Address();
     address.setCountry(addressRequest.getCountry());
     address.setCity(addressRequest.getCity());
     address.setStreet(addressRequest.getStreet());
-    address.setPostalCode(address.getPostalCode());
-    address.setDescription(address.getDescription());
+    address.setPostalCode(addressRequest.getPostalCode());
+    address.setDescription(addressRequest.getDescription());
+    address.setUser(user);
 
-    return mapAddressToAddressResponse(addressRepository.save(address));
+    return productMapper.mapAddressToAddressResponse(addressRepository.save(address));
   }
 
   @Override
@@ -45,10 +53,10 @@ public class AddressServiceImpl implements AddressService {
     address.setCountry(addressRequest.getCountry());
     address.setCity(addressRequest.getCity());
     address.setStreet(addressRequest.getStreet());
-    address.setPostalCode(address.getPostalCode());
-    address.setDescription(address.getDescription());
+    address.setPostalCode(addressRequest.getPostalCode());
+    address.setDescription(addressRequest.getDescription());
 
-    return mapAddressToAddressResponse(addressRepository.save(address));
+    return productMapper.mapAddressToAddressResponse(addressRepository.save(address));
   }
 
   @Override
@@ -64,8 +72,8 @@ public class AddressServiceImpl implements AddressService {
   @Override
   public List<AddressResponse> getAddresses(Authentication principal) {
     User user = userUtil.getUserFromPrincipal(principal);
-    List<AddressResponse> addresses = addressRepository.findAddressesByUser(user).stream()
-        .map(this::mapAddressToAddressResponse)
+    List<AddressResponse> addresses = addressRepository.findAddressesByUserAndDeletedIsFalse(user).stream()
+        .map(productMapper::mapAddressToAddressResponse)
         .collect(Collectors.toList());
 
     return addresses;
@@ -77,17 +85,14 @@ public class AddressServiceImpl implements AddressService {
     Address address = addressRepository.findByIdAndUser(UUID.fromString(addressId), user)
         .orElseThrow(() -> new CustomException("Address not found."));
 
-    return mapAddressToAddressResponse(address);
+    return productMapper.mapAddressToAddressResponse(address);
   }
 
-  private AddressResponse mapAddressToAddressResponse(Address address) {
-    AddressResponse addressResponse = new AddressResponse();
-    addressResponse.setId(address.getId().toString());
-    addressResponse.setCountry(address.getCountry());
-    addressResponse.setPostalCode(address.getPostalCode());
-    addressResponse.setCity(address.getCity());
-    addressResponse.setDescription(address.getDescription());
+  @Override
+  public AddressResponse getAddressForDelivery(String addressId) {
+    Address address = addressRepository.findById(UUID.fromString(addressId))
+        .orElseThrow(() -> new CustomException("Address not found."));
 
-    return addressResponse;
+    return productMapper.mapAddressToAddressResponse(address);
   }
 }
