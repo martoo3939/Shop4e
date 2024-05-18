@@ -26,9 +26,9 @@ public interface ProductRepository extends JpaRepository<Product, UUID>, CustomP
       nativeQuery = true)
   Page<ProductProjection> findAllProducts(@Param("user_id") String userId, Pageable pageable);
 
-  Page<Product> findProductsByTitleContaining(String title, Pageable pageable);
+  Page<Product> findProductsByTitleContainingAndDeletedAtIsNull(String title, Pageable pageable);
 
-  Page<Product> findProductsByTitleContainingAndCategory_Id(String title, UUID categoryId, Pageable pageable);
+  Page<Product> findProductsByTitleContainingAndCategory_IdAndDeletedAtIsNull(String title, UUID categoryId, Pageable pageable);
 
   Optional<Product> findProductByIdAndDeletedAtIsNull(UUID id);
 

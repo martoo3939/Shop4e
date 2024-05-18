@@ -29,11 +29,11 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     PageRequest pageable = PageRequest.of(searchRequest.getPage(), TOTAL_SEARCH_RESULTS);
     Page<Product> result;
     if (searchRequest.getCategoryId() != null) {
-      result = productRepository.findProductsByTitleContainingAndCategory_Id(
+      result = productRepository.findProductsByTitleContainingAndCategory_IdAndDeletedAtIsNull(
           searchRequest.getSearch(),
           UUID.fromString(searchRequest.getCategoryId()), pageable);
     } else {
-      result = productRepository.findProductsByTitleContaining(searchRequest.getSearch(), pageable);
+      result = productRepository.findProductsByTitleContainingAndDeletedAtIsNull(searchRequest.getSearch(), pageable);
     }
 
     return mapProductResultToProductSearchResponse(result);
