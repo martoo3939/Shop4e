@@ -4,14 +4,20 @@
 <head>
   <meta charset="UTF-8">
   <title>Shop4e</title>
+  <link th:href="@{/styles/template.css}" rel="stylesheet" />
 </head>
-<body>
-  <h1>Shop4e</h1>
-  <div th:if="${isVerified}">
-    <p>Account verified successfully!</p>
-  </div>
-  <div th:unless="${isVerified}">
-    <p>Account verification failed. Please try again!</p>
+<body th:class="verification-page">
+  <div th:class="verification-content">
+    <h1>Shop4e</h1>
+    <div th:if="${isVerified}">
+      <p>Account verified successfully!</p>
+    </div>
+    <div th:unless="${isVerified}">
+      <p>Account verification failed. Please try again!</p>
+    </div>
+    <div th:class="actions">
+      <a th:href="@{/}" th:class="action-btn">Go Home</a>
+    </div>
   </div>
 </body>
 </html>
